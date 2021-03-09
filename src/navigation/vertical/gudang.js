@@ -4,7 +4,7 @@ export default [
   },
   {
     title: 'Barang',
-    route: 'screen-barang-tambah',
+    route: 'screen-barang',
     icon: 'ShieldIcon',
     // acl: {
     action: 'read',

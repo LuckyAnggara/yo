@@ -209,6 +209,7 @@ export default {
         },
         buttonsStyling: false,
       })
+      this.$router.push({ name: 'screen-barang' })
     },
     error() {
       this.$swal({
