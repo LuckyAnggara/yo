@@ -6,7 +6,7 @@
       </h4>
     </b-card-header>
     <b-card-body>
-      <b-form @submit.prevent>
+      <b-form @submit.prevent autocomplete="off">
         <b-row>
           <b-col cols="12">
             <b-form-group
@@ -14,7 +14,11 @@
               label-for="nama_barang"
               label-cols-md="4"
             >
-              <b-form-input id="nama_barang" placeholder="Nama Barang" />
+              <b-form-input
+                v-model="form.nama"
+                id="nama_barang"
+                placeholder="Nama Barang"
+              />
             </b-form-group>
           </b-col>
           <b-col cols="12">
@@ -23,11 +27,11 @@
               label-for="jenis_barang"
               label-cols-md="4"
             >
-              <b-form-select v-model="selected">
+              <b-form-select v-model="form.jenis_id">
                 <option
-                  v-for="item in jenis"
-                  v-bind:key="item.id"
-                  v-bind:value="item.id"
+                  v-for="item in jenisBarang"
+                  :key="item.id"
+                  :value="item.id"
                 >
                   {{ item.nama }}
                 </option>
@@ -41,11 +45,11 @@
               label-for="merk_barang"
               label-cols-md="4"
             >
-              <b-form-select v-model="selected">
+              <b-form-select v-model="form.merek_id">
                 <option
-                  v-for="item in jenis"
-                  v-bind:key="item.id"
-                  v-bind:value="item.id"
+                  v-for="item in merekBarang"
+                  :key="item.id"
+                  :value="item.id"
                 >
                   {{ item.nama }}
                 </option>
@@ -55,9 +59,9 @@
 
           <b-col cols="12">
             <b-form-group label="Satuan" label-for="satuan" label-cols-md="4">
-              <b-form-select v-model="selected">
+              <b-form-select v-model="form.satuan_id">
                 <option
-                  v-for="item in jenis"
+                  v-for="item in satuanBarang"
                   v-bind:key="item.id"
                   v-bind:value="item.id"
                 >
@@ -73,7 +77,11 @@
               label-for="harga_1"
               label-cols-md="4"
             >
-              <b-form-input id="harga_1" placeholder="Harga Jual ke 1" />
+              <b-form-input
+                v-model="form.harga_1"
+                id="harga_1"
+                placeholder="Harga Jual ke 1"
+              />
             </b-form-group>
           </b-col>
 
@@ -83,7 +91,11 @@
               label-for="harga_2"
               label-cols-md="4"
             >
-              <b-form-input id="harga_2" placeholder="Harga Jual ke 2" />
+              <b-form-input
+                v-model="form.harga_2"
+                id="harga_2"
+                placeholder="Harga Jual ke 2"
+              />
             </b-form-group>
           </b-col>
 
@@ -93,7 +105,11 @@
               label-for="harga_3"
               label-cols-md="4"
             >
-              <b-form-input id="harga_3" placeholder="Harga Jual ke 3" />
+              <b-form-input
+                v-model="form.harga_3"
+                id="harga_3"
+                placeholder="Harga Jual ke 3"
+              />
             </b-form-group>
           </b-col>
 
@@ -110,6 +126,7 @@
               type="submit"
               variant="primary"
               class="mr-1"
+              @click="create"
             >
               Submit
             </b-button>
@@ -163,30 +180,85 @@ export default {
   },
   data() {
     return {
-      selected: null,
-      options: [
-        { value: null, text: 'Please select an option' },
-        { value: 'a', text: 'This is First option' },
-        { value: 'b', text: 'Simple Option' },
-        { value: { C: '3PO' }, text: 'This is an option with object value' },
-        { value: 'd', text: 'This one is disabled', disabled: true },
-      ],
-      jenis: [],
+      form: {
+        nama: '',
+        jenis_id: '',
+        merek_id: '',
+        satuan_id: '',
+        harga_1: '',
+        harga_2: '',
+        harga_3: '',
+        catatan: '',
+      },
+      jenisBarang: [],
+      merekBarang: [],
+      satuanBarang: [],
     }
   },
   mounted() {
     this.load()
   },
   methods: {
+    success() {
+      this.$swal({
+        title: 'Success!',
+        text: 'Data has been created!!',
+        icon: 'success',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+        },
+        buttonsStyling: false,
+      })
+    },
+    error() {
+      this.$swal({
+        title: 'Error!',
+        text: "Oopss there' a problem!",
+        icon: 'error',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+        },
+        buttonsStyling: false,
+      })
+    },
     load() {
       axios
         .get('http://127.0.0.1:8000/api/barang/jenis')
         .then((res) => {
-          // this.jenis = res.data
-          this.jenis = res.data
-          // console.log(res.data)
+          this.jenisBarang = res.data
         })
         .catch((err) => {
+          console.log(err)
+        })
+      axios
+        .get('http://127.0.0.1:8000/api/barang/satuan')
+        .then((res) => {
+          this.satuanBarang = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      axios
+        .get('http://127.0.0.1:8000/api/barang/merek')
+        .then((res) => {
+          this.merekBarang = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    create() {
+      axios
+        .post('http://127.0.0.1:8000/api/barang/store', this.form)
+        .then((res) => {
+          if (res.status === 200) {
+            this.success()
+          } else {
+            this.error()
+          }
+        })
+        .catch((err) => {
+          // handle error
           console.log(err)
         })
     },

@@ -18,7 +18,7 @@ module.exports = {
       'error',
       { properties: 'never', ignoreDestructuring: true, ignoreImports: true },
     ],
-    'arrow-parens': ['error', 'as-needed'],
+    'arrow-parens': ['error', 'always'],
     // 'arrow-parens': [true, 'ban-single-arg-parens'],
     'vue/multiline-html-element-content-newline': 'off',
     indent: 'off',
