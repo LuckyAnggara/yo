@@ -50,4 +50,19 @@ export default [
       ],
     },
   },
+  {
+    path: '/screen/kontak/',
+    name: 'screen-kontak',
+    component: () => import('@/views/screens/kontak/Daftar.vue'),
+    meta: {
+      pageTitle: 'Daftar',
+      breadcrumb: [
+        {
+          active: true,
+          text: 'Kontak',
+          to: '/screen/kontak/',
+        },
+      ],
+    },
+  },
 ]

@@ -12,8 +12,8 @@ export default [
     // },
   },
   {
-    title: 'Gudang',
-    route: 'screen-gudang',
+    title: 'Kontak',
+    route: 'screen-kontak',
     icon: 'ShieldIcon',
     // acl: {
     action: 'read',
