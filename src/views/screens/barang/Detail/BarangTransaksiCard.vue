@@ -18,13 +18,19 @@
             :clearable="false"
             class="per-page-selector d-inline-block ml-50 mr-1"
           />
-          <b-button variant="primary" :to="{ name: 'apps-invoice-add' }">
+          <b-button
+            variant="primary"
+            :to="{ name: 'apps-invoice-add' }"
+          >
             Add Record
           </b-button>
         </b-col>
 
         <!-- Search -->
-        <b-col cols="12" md="6">
+        <b-col
+          cols="12"
+          md="6"
+        >
           <div class="d-flex align-items-center justify-content-end">
             <b-form-input
               v-model="searchQuery"
@@ -62,7 +68,10 @@
       class="position-relative"
     >
       <template #head(invoiceStatus)>
-        <feather-icon icon="TrendingUpIcon" class="mx-auto" />
+        <feather-icon
+          icon="TrendingUpIcon"
+          class="mx-auto"
+        />
       </template>
 
       <!-- Column: Id -->
@@ -93,12 +102,19 @@
             "
           />
         </b-avatar>
-        <b-tooltip :target="`invoice-row-${data.item.id}`" placement="top">
+        <b-tooltip
+          :target="`invoice-row-${data.item.id}`"
+          placement="top"
+        >
           <p class="mb-0">
             {{ data.item.invoiceStatus }}
           </p>
-          <p class="mb-0">Balance: {{ data.item.balance }}</p>
-          <p class="mb-0">Due Date: {{ data.item.dueDate }}</p>
+          <p class="mb-0">
+            Balance: {{ data.item.balance }}
+          </p>
+          <p class="mb-0">
+            Due Date: {{ data.item.dueDate }}
+          </p>
         </b-tooltip>
       </template>
 
@@ -132,7 +148,10 @@
       <!-- Column: Balance -->
       <template #cell(balance)="data">
         <template v-if="data.value === 0">
-          <b-badge pill variant="light-success">
+          <b-badge
+            pill
+            variant="light-success"
+          >
             Paid
           </b-badge>
         </template>
@@ -216,10 +235,10 @@
           sm="6"
           class="d-flex align-items-center justify-content-center justify-content-sm-start"
         >
-          <span class="text-muted"
-            >Showing {{ dataMeta.from }} to {{ dataMeta.to }} of
-            {{ dataMeta.of }} entries</span
-          >
+          <span
+            class="text-muted"
+          >Showing {{ dataMeta.from }} to {{ dataMeta.to }} of
+            {{ dataMeta.of }} entries</span>
         </b-col>
         <!-- Pagination -->
         <b-col
@@ -238,10 +257,16 @@
             next-class="next-item"
           >
             <template #prev-text>
-              <feather-icon icon="ChevronLeftIcon" size="18" />
+              <feather-icon
+                icon="ChevronLeftIcon"
+                size="18"
+              />
             </template>
             <template #next-text>
-              <feather-icon icon="ChevronRightIcon" size="18" />
+              <feather-icon
+                icon="ChevronRightIcon"
+                size="18"
+              />
             </template>
           </b-pagination>
         </b-col>

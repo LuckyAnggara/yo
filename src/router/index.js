@@ -27,6 +27,7 @@ const router = new VueRouter({
   },
   routes: [
     { path: '/', redirect: { name: 'dashboard-ecommerce' } },
+    ...screen,
     ...apps,
     ...dashboard,
     ...pages,
@@ -34,7 +35,6 @@ const router = new VueRouter({
     ...formsTable,
     ...uiElements,
     ...others,
-    ...screen,
     {
       path: '*',
       redirect: 'error-404',

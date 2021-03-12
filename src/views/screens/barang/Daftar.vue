@@ -1,7 +1,7 @@
 <template>
   <b-row>
-    <b-col cols="12"
-      ><b-card>
+    <b-col cols="12">
+      <b-card>
         <b-card-header class="pb-50">
           <h4>
             Data Barang
@@ -13,7 +13,10 @@
             <div class="flex justify-content-end">
               <b-form-group>
                 <div class="d-flex align-items-center">
-                  <b-button variant="primary" @click="toTambahScreen()">
+                  <b-button
+                    variant="primary"
+                    @click="toTambahScreen()"
+                  >
                     <span class="text-nowrap">Add Item</span>
                   </b-button>
                 </div>
@@ -53,53 +56,126 @@
             <vue-good-table
               :columns="columns"
               :rows="rows"
-              :line-numbers="true"
               :search-options="{
                 enabled: true,
-                placeholder: 'Pencarian Data',
                 externalQuery: searchTerm,
               }"
               :pagination-options="{
                 enabled: true,
-                mode: 'records',
-                perPage: 5,
-                position: 'top',
-                perPageDropdown: [5, 10, 20],
-                dropdownAllowAll: false,
-                setCurrentPage: 2,
-                nextLabel: 'next',
-                prevLabel: 'prev',
-                rowsPerPageLabel: 'Data per halaman',
-                ofLabel: 'of',
-                pageLabel: 'page', // for 'pages' mode
-                allLabel: 'All',
-                infoFn: (params) => `my own page ${params.firstRecordOnPage}`,
+                perPage: pageLength,
               }"
-              >>
+            >
+              <template
+                slot="table-row"
+                slot-scope="props"
+              >
+                <!-- Column: Action -->
+                <span v-if="props.column.field === 'action'">
+                  <div>
+                    <b-button
+                      v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+                      variant="outline-primary"
+                      class="btn-icon"
+                      @click="view(props.row.id)"
+                    >
+                      <feather-icon icon="Edit2Icon" />
+                    </b-button>
+
+                    <b-button
+                      v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+                      variant="outline-primary"
+                      class="btn-icon"
+                      @click="del(props.row.id)"
+                    >
+                      <feather-icon icon="TrashIcon" />
+                    </b-button>
+                  </div>
+                </span>
+
+                <!-- Column: Common -->
+                <span v-else>
+                  {{ props.formattedRow[props.column.field] }}
+                </span>
+              </template>
+              <!-- pagination -->
+              <template
+                slot="pagination-bottom"
+                slot-scope="props"
+              >
+                <div class="d-flex justify-content-between flex-wrap">
+                  <div class="d-flex align-items-center mb-0 mt-1">
+                    <span class="text-nowrap ">
+                      Showing 1 to
+                    </span>
+                    <b-form-select
+                      v-model="pageLength"
+                      :options="['3', '5', '10']"
+                      class="mx-1"
+                      @input="
+                        value => props.perPageChanged({ currentPerPage: value })
+                      "
+                    />
+                    <span class="text-nowrap">
+                      of {{ props.total }} entries
+                    </span>
+                  </div>
+                  <div>
+                    <b-pagination
+                      :value="1"
+                      :total-rows="props.total"
+                      :per-page="pageLength"
+                      first-number
+                      last-number
+                      align="right"
+                      prev-class="prev-item"
+                      next-class="next-item"
+                      class="mt-1 mb-0"
+                      @input="
+                        value => props.pageChanged({ currentPage: value })
+                      "
+                    >
+                      <template #prev-text>
+                        <feather-icon
+                          icon="ChevronLeftIcon"
+                          size="18"
+                        />
+                      </template>
+                      <template #next-text>
+                        <feather-icon
+                          icon="ChevronRightIcon"
+                          size="18"
+                        />
+                      </template>
+                    </b-pagination>
+                  </div>
+                </div>
+              </template>
             </vue-good-table>
           </div>
         </b-card-body>
-      </b-card></b-col
-    ></b-row
-  >
+      </b-card>
+    </b-col>
+  </b-row>
 </template>
 
 <script>
+import router from '@/router'
 import {
   BRow,
   BCol,
-  // BBadge,
-  // BPagination,
+  BPagination,
   BFormGroup,
   BFormInput,
   BButton,
-  // BFormSelect,
-  // BDropdown,
   BCard,
+  BCardHeader,
+  BFormSelect,
   BCardBody,
+  // BDropdown,
   // BDropdownItem,
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
+import Ripple from 'vue-ripple-directive'
 import axios from 'axios'
 
 export default {
@@ -107,16 +183,19 @@ export default {
     BRow,
     BCol,
     VueGoodTable,
-    // BBadge,
-    // BPagination,
+    BPagination,
     BFormGroup,
     BFormInput,
     BButton,
-    // BFormSelect,
+    BFormSelect,
     // BDropdown,
     // BDropdownItem,
     BCard,
+    BCardHeader,
     BCardBody,
+  },
+  directives: {
+    Ripple,
   },
   data() {
     return {
@@ -125,7 +204,7 @@ export default {
       columns: [
         {
           label: 'Kode',
-          field: 'nama',
+          field: 'kode_barang',
         },
         {
           label: 'Nama',
@@ -145,8 +224,13 @@ export default {
         },
         {
           label: 'Harga Jual',
-          field: this.fieldFn,
-          html: true,
+          field: 'harga_1',
+          type: 'decimal',
+          formatFn: this.formatRupiah,
+        },
+        {
+          label: 'Action',
+          field: 'action',
         },
       ],
       rows: [],
@@ -154,22 +238,66 @@ export default {
     }
   },
   mounted() {
-    axios
-      .get('http://127.0.0.1:8000/api/barang')
-      .then((res) => {
-        this.rows = res.data
-        console.log(res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    this.loadData()
   },
   methods: {
+    formatRupiah(value) {
+      return `Rp. ${value
+        .toFixed(0)
+        .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.')}`
+    },
+    loadData() {
+      axios
+        .get('http://127.0.0.1:8000/api/barang')
+        .then(res => {
+          this.rows = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    view(obj) {
+      router.push({ name: 'screen-barang-detail', params: { id: obj } })
+    },
     fieldFn(rows) {
       return `${rows.harga_1} <br> ${rows.harga_2} <br> ${rows.harga_3}`
     },
+    edit(id) {
+      return id
+    },
+    del(id) {
+      this.$swal({
+        title: 'Delete data ?',
+        text: 'Data barang akan di hapus',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ml-1',
+        },
+        buttonsStyling: false,
+      }).then(result => {
+        if (result.value) {
+          axios.delete(`http://127.0.0.1:8000/api/barang/${id}`).then(res => {
+            if (res.status === 200) {
+              this.loadData()
+              this.$swal({
+                icon: 'success',
+                title: 'Deleted!',
+                customClass: {
+                  confirmButton: 'btn btn-success',
+                },
+              })
+            }
+          })
+        }
+      })
+    },
     toTambahScreen() {
-      this.$router.push({ name: 'screen-barang-tambah' })
+      this.$router.push({
+        name: 'screen-barang-tambah',
+      })
     },
   },
 }

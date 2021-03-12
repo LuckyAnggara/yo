@@ -2,11 +2,11 @@
   <b-card>
     <b-card-header class="pb-50">
       <h4>
-        Tambah Data
+        Detail Data
       </h4>
     </b-card-header>
     <b-card-body>
-      <b-form @submit.prevent autocomplete="off">
+      <b-form @submit.prevent v-on:submit="create" autocomplete="off">
         <b-row>
           <b-col cols="12">
             <b-form-group
@@ -18,6 +18,7 @@
                 v-model="form.nama"
                 id="nama_barang"
                 placeholder="Nama Barang"
+                required
               />
             </b-form-group>
           </b-col>
@@ -27,15 +28,13 @@
               label-for="jenis_barang"
               label-cols-md="4"
             >
-              <b-form-select v-model="form.jenis_id">
-                <option
-                  v-for="item in jenisBarang"
-                  :key="item.id"
-                  :value="item.id"
-                >
-                  {{ item.nama }}
-                </option>
-              </b-form-select>
+              <v-select
+                v-model="form.jenis_id"
+                placeholder="Jenis Barang"
+                :reduce="nama => nama.id"
+                label="nama"
+                :options="jenisBarang"
+              />
             </b-form-group>
           </b-col>
 
@@ -45,29 +44,25 @@
               label-for="merk_barang"
               label-cols-md="4"
             >
-              <b-form-select v-model="form.merek_id">
-                <option
-                  v-for="item in merekBarang"
-                  :key="item.id"
-                  :value="item.id"
-                >
-                  {{ item.nama }}
-                </option>
-              </b-form-select>
+              <v-select
+                v-model="form.merek_id"
+                placeholder="Merek Barang"
+                :reduce="nama => nama.id"
+                label="nama"
+                :options="merekBarang"
+              />
             </b-form-group>
           </b-col>
 
           <b-col cols="12">
             <b-form-group label="Satuan" label-for="satuan" label-cols-md="4">
-              <b-form-select v-model="form.satuan_id">
-                <option
-                  v-for="item in satuanBarang"
-                  v-bind:key="item.id"
-                  v-bind:value="item.id"
-                >
-                  {{ item.nama }}
-                </option>
-              </b-form-select>
+              <v-select
+                v-model="form.satuan_id"
+                placeholder="Satuan Barang"
+                :reduce="nama => nama.id"
+                label="nama"
+                :options="satuanBarang"
+              />
             </b-form-group>
           </b-col>
 
@@ -81,6 +76,8 @@
                 v-model="form.harga_1"
                 id="harga_1"
                 placeholder="Harga Jual ke 1"
+                required
+                type="number"
               />
             </b-form-group>
           </b-col>
@@ -95,6 +92,8 @@
                 v-model="form.harga_2"
                 id="harga_2"
                 placeholder="Harga Jual ke 2"
+                required
+                type="number"
               />
             </b-form-group>
           </b-col>
@@ -109,6 +108,8 @@
                 v-model="form.harga_3"
                 id="harga_3"
                 placeholder="Harga Jual ke 3"
+                required
+                type="number"
               />
             </b-form-group>
           </b-col>
@@ -126,10 +127,10 @@
               type="submit"
               variant="primary"
               class="mr-1"
-              @click="create"
             >
               Submit
             </b-button>
+
             <b-button
               v-ripple.400="'rgba(186, 191, 199, 0.15)'"
               type="reset"
@@ -150,7 +151,6 @@ import {
   BCol,
   BFormGroup,
   BFormInput,
-  BFormSelect,
   BForm,
   BButton,
   BCard,
@@ -159,11 +159,12 @@ import {
   BFormTextarea,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
+import vSelect from 'vue-select'
 import axios from 'axios'
 
 export default {
   components: {
-    BFormSelect,
+    vSelect,
     BCardHeader,
     BFormTextarea,
     BCard,
@@ -190,6 +191,7 @@ export default {
         harga_3: '',
         catatan: '',
       },
+      selected: '',
       jenisBarang: [],
       merekBarang: [],
       satuanBarang: [],
@@ -209,7 +211,9 @@ export default {
         },
         buttonsStyling: false,
       })
-      this.$router.push({ name: 'screen-barang' })
+      this.$router.push({
+        name: 'screen-barang',
+      })
     },
     error() {
       this.$swal({
@@ -225,40 +229,40 @@ export default {
     load() {
       axios
         .get('http://127.0.0.1:8000/api/barang/jenis')
-        .then((res) => {
+        .then(res => {
           this.jenisBarang = res.data
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err)
         })
       axios
         .get('http://127.0.0.1:8000/api/barang/satuan')
-        .then((res) => {
+        .then(res => {
           this.satuanBarang = res.data
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err)
         })
       axios
         .get('http://127.0.0.1:8000/api/barang/merek')
-        .then((res) => {
+        .then(res => {
           this.merekBarang = res.data
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err)
         })
     },
     create() {
       axios
         .post('http://127.0.0.1:8000/api/barang/store', this.form)
-        .then((res) => {
+        .then(res => {
           if (res.status === 200) {
             this.success()
           } else {
             this.error()
           }
         })
-        .catch((err) => {
+        .catch(err => {
           // handle error
           console.log(err)
         })

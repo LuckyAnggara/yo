@@ -31,20 +31,20 @@ tagVariant
 
 */
 import dashboard from './dashboard'
+import persediaan from './persediaan'
 import appsAndPages from './apps-and-pages'
 import others from './others'
 import chartsAndMaps from './charts-and-maps'
 import uiElements from './ui-elements'
 import formAndTable from './forms-and-table'
-import gudang from './gudang'
 
 // Array of sections
 export default [
   ...dashboard,
+  ...persediaan,
   ...appsAndPages,
   ...uiElements,
   ...formAndTable,
   ...chartsAndMaps,
   ...others,
-  ...gudang,
 ]

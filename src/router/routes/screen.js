@@ -2,7 +2,7 @@ export default [
   {
     path: '/screen/barang/tambah',
     name: 'screen-barang-tambah',
-    component: () => import('@/views/screens/barang/Tambah.vue'),
+    component: () => import('@/views/screens/barang/Tambah/Tambah.vue'),
     meta: {
       pageTitle: 'Tambah',
       breadcrumb: [
@@ -28,6 +28,24 @@ export default [
           active: true,
           text: 'Barang',
           to: '/screen/barang/',
+        },
+      ],
+    },
+  },
+  {
+    path: '/screen/barang/detail/:id',
+    name: 'screen-barang-detail',
+    component: () => import('@/views/screens/barang/Detail/Detail.vue'),
+    meta: {
+      pageTitle: 'Daftar',
+      breadcrumb: [
+        {
+          text: 'Barang',
+          to: '/screen/barang/',
+        },
+        {
+          text: 'Detail Data',
+          active: true,
         },
       ],
     },

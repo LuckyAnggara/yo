@@ -13,14 +13,14 @@ module.exports = {
 
     semi: ['error', 'never'],
     'max-len': 'off',
-    'linebreak-style': 'off',
+
     camelcase: [
       'error',
       { properties: 'never', ignoreDestructuring: true, ignoreImports: true },
     ],
-    'arrow-parens': ['error', 'always'],
-    // 'arrow-parens': [true, 'ban-single-arg-parens'],
-    'vue/multiline-html-element-content-newline': 'off',
-    indent: 'off',
+    // 'arrow-parens': ['warn', 'always'],
+    'arrow-parens': 'off',
+    'vue/max-attributes-per-line': 1,
+    'object-curly-newline': 1,
   },
 }
