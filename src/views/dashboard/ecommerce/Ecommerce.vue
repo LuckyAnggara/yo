@@ -100,6 +100,7 @@
 import { BRow, BCol } from 'bootstrap-vue'
 
 import { getUserData } from '@/auth/utils'
+import store from '@/store'
 import EcommerceMedal from './EcommerceMedal.vue'
 import EcommerceStatistics from './EcommerceStatistics.vue'
 import EcommerceRevenueReport from './EcommerceRevenueReport.vue'
@@ -136,15 +137,34 @@ export default {
   },
   created() {
     // data
-    this.$http.get('/ecommerce/data')
-      .then(response => {
-        this.data = response.data
+    this.$http.get('/ecommerce/data').then(response => {
+      this.data = response.data
 
-        // ? Your API will return name of logged in user or you might just directly get name of logged in user
-        // ? This is just for demo purpose
-        const userData = getUserData()
-        this.data.congratulations.name = userData.fullName.split(' ')[0] || userData.username
+      // ? Your API will return name of logged in user or you might just directly get name of logged in user
+      // ? This is just for demo purpose
+      const userData = getUserData()
+      this.data.congratulations.name = userData.fullName.split(' ')[0] || userData.username
+    })
+    this.loadData()
+  },
+  methods: {
+    loadData() {
+      store.dispatch('app-barang/fetchListBarang').then(res => {
+        store.commit('app-barang/SET_LIST_BARANG', res.data)
       })
+      store.dispatch('app-barang/fetchListGudang').then(res => {
+        store.commit('app-barang/SET_LIST_GUDANG', res.data)
+      })
+      store.dispatch('app-barang/fetchListJenis').then(res => {
+        store.commit('app-barang/SET_LIST_JENIS', res.data)
+      })
+      store.dispatch('app-barang/fetchListSatuan').then(res => {
+        store.commit('app-barang/SET_LIST_SATUAN', res.data)
+      })
+      store.dispatch('app-barang/fetchListMerek').then(res => {
+        store.commit('app-barang/SET_LIST_MEREK', res.data)
+      })
+    },
   },
 }
 </script>

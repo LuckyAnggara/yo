@@ -31,6 +31,7 @@
               <b-button
                 variant="outline-danger"
                 class="ml-1"
+                @click="del(dataBarang.id)"
               >
                 Delete
               </b-button>
@@ -83,55 +84,53 @@
         cols="12"
         xl="6"
       >
-        <table class="mt-2 mt-xl-0 w-100">
+        <table class="mt-2 mt-xl-0 w-100 table-striped">
           <tr>
             <th class="pb-50">
-              <feather-icon
-                icon="UserIcon"
-                class="mr-75"
-              />
-              <span class="font-weight-bold">Jenis</span>
+              <h4 class="font-weight-bold">
+                Jenis
+              </h4>
             </th>
             <td class="pb-50">
-              {{ dataBarang.nama_jenis }}
+              <h4 class="font-weight-normal">
+                {{ dataBarang.nama_jenis }}
+              </h4>
             </td>
           </tr>
           <tr>
             <th class="pb-50">
-              <feather-icon
-                icon="CheckIcon"
-                class="mr-75"
-              />
-              <span class="font-weight-bold">Satuan</span>
-            </th>
-            <td class="pb-50 text-capitalize">
-              {{ dataBarang.nama_satuan }}
-            </td>
-          </tr>
-          <tr>
-            <th class="pb-50">
-              <feather-icon
-                icon="StarIcon"
-                class="mr-75"
-              />
-              <span class="font-weight-bold">Merek</span>
-            </th>
-            <td class="pb-50 text-capitalize">
-              {{ dataBarang.nama_merek }}
-            </td>
-          </tr>
-          <tr>
-            <th class="pb-50">
-              <feather-icon
-                icon="FlagIcon"
-                class="mr-75"
-              />
-              <span class="font-weight-bold">Harga</span>
+              <h4 class="font-weight-bold">
+                Merek
+              </h4>
             </th>
             <td class="pb-50">
-              {{ formatRupiah(dataBarang.harga_1) }} <br>
-              {{ formatRupiah(dataBarang.harga_2) }} <br>
-              {{ formatRupiah(dataBarang.harga_3) }} <br>
+              <h4 class="font-weight-normal">
+                {{ dataBarang.nama_merek }}
+              </h4>
+            </td>
+          </tr>
+          <tr>
+            <th class="pb-50">
+              <h4 class="font-weight-bold">
+                Gudang
+              </h4>
+            </th>
+            <td class="pb-50">
+              <h4 class="font-weight-normal">
+                {{ dataBarang.nama_gudang }}
+              </h4>
+            </td>
+          </tr>
+          <tr>
+            <th class="pb-50">
+              <h4 class="font-weight-bold">
+                Rak Penyimpanan
+              </h4>
+            </th>
+            <td class="pb-50">
+              <h4 class="font-weight-normal">
+                {{ dataBarang.rak }}
+              </h4>
             </td>
           </tr>
         </table>
@@ -145,6 +144,8 @@ import {
   BCard, BButton, BAvatar, BRow, BCol,
 } from 'bootstrap-vue'
 import { avatarText } from '@core/utils/filter'
+import store from '@/store'
+
 // import useUsersList from '../users-list/useUsersList'
 
 export default {
@@ -173,6 +174,42 @@ export default {
       return `Rp. ${value
         .toFixed(0)
         .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.')}`
+    },
+    del(id) {
+      this.$swal({
+        title: 'Delete data ?',
+        text: 'Data barang akan di hapus',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ml-1',
+        },
+        buttonsStyling: false,
+      }).then(result => {
+        if (result.value) {
+          store
+            .dispatch('app-barang/removeBarang', {
+              id,
+            })
+            .then(res => {
+              if (res.status === 200) {
+                // store.commit('app-barang/REMOVE_LIST_BARANG', index)
+                this.$swal({
+                  icon: 'success',
+                  title: 'Deleted!',
+                  customClass: {
+                    confirmButton: 'btn btn-success',
+                  },
+                })
+                this.$router.push({
+                  name: 'screen-barang',
+                })
+              }
+            })
+        }
+      })
     },
   },
 }

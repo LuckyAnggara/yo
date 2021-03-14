@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 // Modules
 import ecommerceStoreModule from '@/views/apps/e-commerce/eCommerceStoreModule'
+import barangStoreModule from '@/views/screens/barang/barangStoreModule'
 import app from './app'
 import appConfig from './app-config'
 import verticalMenu from './vertical-menu'
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     appConfig,
     verticalMenu,
     'app-ecommerce': ecommerceStoreModule,
+    'app-barang': barangStoreModule,
   },
   strict: process.env.DEV,
 })

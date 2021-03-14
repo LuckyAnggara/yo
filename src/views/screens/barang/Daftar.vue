@@ -85,7 +85,7 @@
                       v-ripple.400="'rgba(113, 102, 240, 0.15)'"
                       variant="outline-primary"
                       class="btn-icon"
-                      @click="del(props.row.id)"
+                      @click="del(props.index, props.row.id)"
                     >
                       <feather-icon icon="TrashIcon" />
                     </b-button>
@@ -160,6 +160,8 @@
 
 <script>
 import router from '@/router'
+// import { onUnmounted } from '@vue/composition-api'
+
 import {
   BRow,
   BCol,
@@ -176,7 +178,8 @@ import {
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
 import Ripple from 'vue-ripple-directive'
-import axios from 'axios'
+import store from '@/store'
+// import barangStoreModule from './barangStoreModule'
 
 export default {
   components: {
@@ -188,8 +191,6 @@ export default {
     BFormInput,
     BButton,
     BFormSelect,
-    // BDropdown,
-    // BDropdownItem,
     BCard,
     BCardHeader,
     BCardBody,
@@ -219,43 +220,38 @@ export default {
           field: 'nama_merek',
         },
         {
-          label: 'Satuan',
-          field: 'nama_satuan',
+          label: 'Gudang',
+          field: 'nama_gudang',
         },
-        {
-          label: 'Harga Jual',
-          field: 'harga_1',
-          type: 'decimal',
-          formatFn: this.formatRupiah,
-        },
+
         {
           label: 'Action',
           field: 'action',
         },
       ],
-      rows: [],
+      rows: '',
       searchTerm: '',
     }
   },
-  mounted() {
-    this.loadData()
+  created() {
+    this.rows = store.getters['app-barang/getListBarang']
   },
   methods: {
-    formatRupiah(value) {
-      return `Rp. ${value
-        .toFixed(0)
-        .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.')}`
-    },
-    loadData() {
-      axios
-        .get('http://127.0.0.1:8000/api/barang')
-        .then(res => {
-          this.rows = res.data
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
+    // loadData() {
+    //   store.dispatch('app-barang/fetchListBarang').then(res => {
+    //     store.commit('app-barang/SET_LIST_BARANG', res.data)
+    //     this.rows = store.getters['app-barang/getListBarang']
+    //   })
+    //   store.dispatch('app-barang/fetchListJenis').then(res => {
+    //     store.commit('app-barang/SET_LIST_JENIS', res.data)
+    //   })
+    //   store.dispatch('app-barang/fetchListSatuan').then(res => {
+    //     store.commit('app-barang/SET_LIST_SATUAN', res.data)
+    //   })
+    //   store.dispatch('app-barang/fetchListMerek').then(res => {
+    //     store.commit('app-barang/SET_LIST_MEREK', res.data)
+    //   })
+    // },
     view(obj) {
       router.push({ name: 'screen-barang-detail', params: { id: obj } })
     },
@@ -265,7 +261,7 @@ export default {
     edit(id) {
       return id
     },
-    del(id) {
+    del(index, id) {
       this.$swal({
         title: 'Delete data ?',
         text: 'Data barang akan di hapus',
@@ -279,18 +275,22 @@ export default {
         buttonsStyling: false,
       }).then(result => {
         if (result.value) {
-          axios.delete(`http://127.0.0.1:8000/api/barang/${id}`).then(res => {
-            if (res.status === 200) {
-              this.loadData()
-              this.$swal({
-                icon: 'success',
-                title: 'Deleted!',
-                customClass: {
-                  confirmButton: 'btn btn-success',
-                },
-              })
-            }
-          })
+          store
+            .dispatch('app-barang/removeBarang', {
+              id,
+            })
+            .then(res => {
+              if (res.status === 200) {
+                store.commit('app-barang/REMOVE_LIST_BARANG', index)
+                this.$swal({
+                  icon: 'success',
+                  title: 'Deleted!',
+                  customClass: {
+                    confirmButton: 'btn btn-success',
+                  },
+                })
+              }
+            })
         }
       })
     },
@@ -300,6 +300,21 @@ export default {
       })
     },
   },
+  // setup() {
+  //   const BARANG_APP_STORE_MODULE_NAME = 'app-barang'
+
+  //   // Register module
+  //   if (!store.hasModule(BARANG_APP_STORE_MODULE_NAME)) {
+  //     store.registerModule(BARANG_APP_STORE_MODULE_NAME, barangStoreModule)
+  //   }
+
+  //   // UnRegister on leave
+  //   onUnmounted(() => {
+  //     if (store.hasModule(BARANG_APP_STORE_MODULE_NAME)) {
+  //       store.unregisterModule(BARANG_APP_STORE_MODULE_NAME)
+  //     }
+  //   })
+  // },
 }
 </script>
 

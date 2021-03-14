@@ -1,7 +1,6 @@
 <template>
   <section class="invoice-add-wrapper">
     <b-row class="invoice-add">
-
       <!-- Col: Left (Invoice Container) -->
       <b-col
         cols="12"
@@ -15,9 +14,9 @@
           >
             <!-- Header -->
             <b-card-body class="invoice-padding pb-0">
-
-              <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
-
+              <div
+                class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0"
+              >
                 <!-- Header: Left Content -->
                 <div>
                   <div class="logo-wrapper">
@@ -39,11 +38,15 @@
 
                 <!-- Header: Right Content -->
                 <div class="invoice-number-date mt-md-0 mt-2">
-                  <div class="d-flex align-items-center justify-content-md-end mb-1">
+                  <div
+                    class="d-flex align-items-center justify-content-md-end mb-1"
+                  >
                     <h4 class="invoice-title">
                       Invoice
                     </h4>
-                    <b-input-group class="input-group-merge invoice-edit-input-group disabled">
+                    <b-input-group
+                      class="input-group-merge invoice-edit-input-group disabled"
+                    >
                       <b-input-group-prepend is-text>
                         <feather-icon icon="HashIcon" />
                       </b-input-group-prepend>
@@ -80,11 +83,8 @@
             <hr class="invoice-spacing">
 
             <!-- Invoice Client & Payment Details -->
-            <b-card-body
-              class="invoice-padding pt-0"
-            >
+            <b-card-body class="invoice-padding pt-0">
               <b-row class="invoice-spacing">
-
                 <!-- Col: Invoice To -->
                 <b-col
                   cols="12"
@@ -130,7 +130,8 @@
                       {{ invoiceData.client.company }}
                     </b-card-text>
                     <b-card-text class="mb-25">
-                      {{ invoiceData.client.address }}, {{ invoiceData.client.country }}
+                      {{ invoiceData.client.address }},
+                      {{ invoiceData.client.country }}
                     </b-card-text>
                     <b-card-text class="mb-25">
                       {{ invoiceData.client.contact }}
@@ -157,7 +158,9 @@
                           <td class="pr-1">
                             Total Due:
                           </td>
-                          <td><span class="font-weight-bold">$12,110.55</span></td>
+                          <td>
+                            <span class="font-weight-bold">$12,110.55</span>
+                          </td>
                         </tr>
                         <tr>
                           <td class="pr-1">
@@ -195,7 +198,7 @@
               <div
                 ref="form"
                 class="repeater-form"
-                :style="{height: trHeight}"
+                :style="{ height: trHeight }"
               >
                 <b-row
                   v-for="(item, index) in invoiceData.items"
@@ -203,11 +206,9 @@
                   ref="row"
                   class="pb-2"
                 >
-
                   <!-- Item Form -->
                   <!-- ? This will be in loop => So consider below markup for single item -->
                   <b-col cols="12">
-
                     <!-- ? Flex to keep separate width for XIcon and SettingsIcon -->
                     <div class="d-none d-lg-flex">
                       <b-row class="flex-grow-1 px-1">
@@ -308,7 +309,9 @@
                           </p>
                         </b-col>
                       </b-row>
-                      <div class="d-flex flex-column justify-content-between border-left py-50 px-25">
+                      <div
+                        class="d-flex flex-column justify-content-between border-left py-50 px-25"
+                      >
                         <feather-icon
                           size="16"
                           icon="XIcon"
@@ -331,7 +334,6 @@
                         >
                           <b-form @submit.prevent>
                             <b-row>
-
                               <!-- Field: Discount -->
                               <b-col cols="12">
                                 <b-form-group
@@ -353,7 +355,11 @@
                                   :label-for="`setting-item-${index}-tax-1`"
                                 >
                                   <v-select
-                                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                                    :dir="
+                                      $store.state.appConfig.isRTL
+                                        ? 'rtl'
+                                        : 'ltr'
+                                    "
                                     :value="'10%'"
                                     :options="['0%', '1%', '10%', '14%', '18%']"
                                     :input-id="`setting-item-${index}-tax-1`"
@@ -369,7 +375,11 @@
                                   :label-for="`setting-item-${index}-tax-2`"
                                 >
                                   <v-select
-                                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                                    :dir="
+                                      $store.state.appConfig.isRTL
+                                        ? 'rtl'
+                                        : 'ltr'
+                                    "
                                     :value="'10%'"
                                     :options="['0%', '1%', '10%', '14%', '18%']"
                                     :input-id="`setting-item-${index}-tax-2`"
@@ -384,13 +394,25 @@
                               >
                                 <b-button
                                   variant="outline-primary"
-                                  @click="() => {$refs[`form-item-settings-popover-${index}`][0].$emit('close')}"
+                                  @click="
+                                    () => {
+                                      $refs[
+                                        `form-item-settings-popover-${index}`
+                                      ][0].$emit('close')
+                                    }
+                                  "
                                 >
                                   Apply
                                 </b-button>
                                 <b-button
                                   variant="outline-secondary"
-                                  @click="() => {$refs[`form-item-settings-popover-${index}`][0].$emit('close')}"
+                                  @click="
+                                    () => {
+                                      $refs[
+                                        `form-item-settings-popover-${index}`
+                                      ][0].$emit('close')
+                                    }
+                                  "
                                 >
                                   Cancel
                                 </b-button>
@@ -416,7 +438,6 @@
             <!-- Invoice Description: Total -->
             <b-card-body class="invoice-padding pb-0">
               <b-row>
-
                 <!-- Col: Sales Persion -->
                 <b-col
                   cols="12"
@@ -502,10 +523,8 @@
         xl="3"
         class="invoice-actions mt-md-0 mt-2"
       >
-
         <!-- Action Buttons -->
         <b-card>
-
           <!-- Button: Send Invoice -->
           <b-button
             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
@@ -597,7 +616,21 @@ import { heightTransition } from '@core/mixins/ui/transition'
 import Ripple from 'vue-ripple-directive'
 import store from '@/store'
 import {
-  BRow, BCol, BCard, BCardBody, BButton, BCardText, BForm, BFormGroup, BFormInput, BInputGroup, BInputGroupPrepend, BFormTextarea, BFormCheckbox, BPopover, VBToggle,
+  BRow,
+  BCol,
+  BCard,
+  BCardBody,
+  BButton,
+  BCardText,
+  BForm,
+  BFormGroup,
+  BFormInput,
+  BInputGroup,
+  BInputGroupPrepend,
+  BFormTextarea,
+  BFormCheckbox,
+  BPopover,
+  VBToggle,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
@@ -628,7 +661,6 @@ export default {
   directives: {
     Ripple,
     'b-toggle': VBToggle,
-
   },
   mixins: [heightTransition],
   mounted() {
@@ -643,7 +675,9 @@ export default {
   methods: {
     addNewItemInItemForm() {
       this.$refs.form.style.overflow = 'hidden'
-      this.invoiceData.items.push(JSON.parse(JSON.stringify(this.itemFormBlankItem)))
+      this.invoiceData.items.push(
+        JSON.parse(JSON.stringify(this.itemFormBlankItem)),
+      )
 
       this.$nextTick(() => {
         this.trAddHeight(this.$refs.row[0].offsetHeight)
@@ -675,8 +709,9 @@ export default {
     })
 
     const clients = ref([])
-    store.dispatch('app-invoice/fetchClients')
-      .then(response => { clients.value = response.data })
+    store.dispatch('app-invoice/fetchClients').then(response => {
+      clients.value = response.data
+    })
 
     const itemFormBlankItem = {
       item: null,
@@ -693,7 +728,8 @@ export default {
       items: [JSON.parse(JSON.stringify(itemFormBlankItem))],
 
       salesPerson: '',
-      note: 'It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!',
+      note:
+        'It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!',
       paymentMethod: null,
     })
 
@@ -731,11 +767,7 @@ export default {
       invoiceData.value.items[index].description = description
     }
 
-    const paymentMethods = [
-      'Bank Account',
-      'PayPal',
-      'UPI Transfer',
-    ]
+    const paymentMethods = ['Bank Account', 'PayPal', 'UPI Transfer']
 
     return {
       invoiceData,
@@ -755,7 +787,7 @@ export default {
 .invoice-add-wrapper {
   .add-new-client-header {
     padding: $options-padding-y $options-padding-x;
-      color: $success;
+    color: $success;
 
     &:hover {
       background-color: rgba($success, 0.12);
@@ -765,11 +797,11 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-@import "~@core/scss/base/pages/app-invoice.scss";
+@import '~@core/scss/base/pages/app-invoice.scss';
 @import '~@core/scss/base/components/variables-dark';
 
 .form-item-section {
-background-color:$product-details-bg;
+  background-color: $product-details-bg;
 }
 
 .form-item-action-col {
@@ -778,7 +810,7 @@ background-color:$product-details-bg;
 
 .repeater-form {
   // overflow: hidden;
-  transition: .35s height;
+  transition: 0.35s height;
 }
 
 .v-select {
@@ -799,7 +831,6 @@ background-color:$product-details-bg;
     .row .border {
       background-color: $theme-dark-card-bg;
     }
-
   }
 }
 </style>
