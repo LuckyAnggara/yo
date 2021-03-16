@@ -4,7 +4,7 @@
       <b-card>
         <b-card-header class="pb-50">
           <h4>
-            Data Barang
+            Data Kontak
           </h4>
         </b-card-header>
         <b-card-body>
@@ -13,11 +13,8 @@
             <div class="flex justify-content-end">
               <b-form-group>
                 <div class="d-flex align-items-center">
-                  <b-button
-                    variant="primary"
-                    @click="toTambahScreen()"
-                  >
-                    <span class="text-nowrap">Add Item</span>
+                  <b-button variant="primary" @click="toTambahScreen()">
+                    <span class="text-nowrap">Add Kontak</span>
                   </b-button>
                 </div>
               </b-form-group>
@@ -49,10 +46,7 @@
                 perPage: pageLength,
               }"
             >
-              <template
-                slot="table-row"
-                slot-scope="props"
-              >
+              <template slot="table-row" slot-scope="props">
                 <!-- Column: Action -->
                 <span v-if="props.column.field === 'action'">
                   <div>
@@ -82,10 +76,7 @@
                 </span>
               </template>
               <!-- pagination -->
-              <template
-                slot="pagination-bottom"
-                slot-scope="props"
-              >
+              <template slot="pagination-bottom" slot-scope="props">
                 <div class="d-flex justify-content-between flex-wrap">
                   <div class="d-flex align-items-center mb-0 mt-1">
                     <span class="text-nowrap ">
@@ -119,16 +110,10 @@
                       "
                     >
                       <template #prev-text>
-                        <feather-icon
-                          icon="ChevronLeftIcon"
-                          size="18"
-                        />
+                        <feather-icon icon="ChevronLeftIcon" size="18" />
                       </template>
                       <template #next-text>
-                        <feather-icon
-                          icon="ChevronRightIcon"
-                          size="18"
-                        />
+                        <feather-icon icon="ChevronRightIcon" size="18" />
                       </template>
                     </b-pagination>
                   </div>
@@ -274,7 +259,7 @@ export default {
     },
     toTambahScreen() {
       this.$router.push({
-        name: 'screen-barang-tambah',
+        name: 'screen-kontak-tambah',
       })
     },
   },

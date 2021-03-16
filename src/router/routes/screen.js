@@ -65,4 +65,37 @@ export default [
       ],
     },
   },
+  {
+    path: '/screen/kontak/tambah',
+    name: 'screen-kontak-tambah',
+    component: () => import('@/views/screens/kontak/Tambah/Tambah.vue'),
+    meta: {
+      pageTitle: 'Tambah',
+      breadcrumb: [
+        {
+          text: 'Kontak',
+          to: '/screen/kontak/',
+        },
+        {
+          text: 'Tambah',
+          active: true,
+        },
+      ],
+    },
+  },
+  {
+    path: '/screen/daftar/akun/',
+    name: 'screen-daftar-akun',
+    component: () => import('@/views/screens/daftar-akun/Daftar.vue'),
+    meta: {
+      pageTitle: 'Daftar',
+      breadcrumb: [
+        {
+          active: true,
+          text: 'Daftar Akun',
+          to: '/screen/daftar-akun/',
+        },
+      ],
+    },
+  },
 ]

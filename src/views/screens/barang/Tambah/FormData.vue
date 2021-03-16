@@ -39,10 +39,7 @@
                   v-b-toggle.sidebar-add-jenis
                   class="add-new-data-header d-flex align-items-center my-50"
                 >
-                  <feather-icon
-                    icon="PlusIcon"
-                    size="16"
-                  />
+                  <feather-icon icon="PlusIcon" size="16" />
                   <span class="align-middle ml-25">Tambah Jenis</span>
                 </li>
               </template>
@@ -68,10 +65,7 @@
                   v-b-toggle.sidebar-add-merek
                   class="add-new-data-header d-flex align-items-center my-50"
                 >
-                  <feather-icon
-                    icon="PlusIcon"
-                    size="16"
-                  />
+                  <feather-icon icon="PlusIcon" size="16" />
                   <span class="align-middle ml-25">Tambah Merek</span>
                 </li>
               </template>
@@ -97,10 +91,7 @@
                   v-b-toggle.sidebar-add-gudang
                   class="add-new-data-header d-flex align-items-center my-50"
                 >
-                  <feather-icon
-                    icon="PlusIcon"
-                    size="16"
-                  />
+                  <feather-icon icon="PlusIcon" size="16" />
                   <span class="align-middle ml-25">Tambah Gudang</span>
                 </li>
               </template>
@@ -123,61 +114,57 @@
           </b-form-group>
         </b-col>
 
-        <!--
-            <b-col cols="12">
-              <b-form-group
-                label="Harga Jual ke 1"
-                label-for="harga_1"
-                label-cols-md="4"
-              >
-                <b-form-input
-                  id="harga_1"
-                  v-model="form.harga_1"
-                  placeholder="Harga Jual ke 1"
-                  required
-                  type="number"
-                />
-              </b-form-group>
-            </b-col>
-
-            <b-col cols="12">
-              <b-form-group
-                label="Harga Jual ke 2"
-                label-for="harga_2"
-                label-cols-md="4"
-              >
-                <b-form-input
-                  id="harga_2"
-                  v-model="form.harga_2"
-                  placeholder="Harga Jual ke 2"
-                  required
-                  type="number"
-                />
-              </b-form-group>
-            </b-col>
-
-            <b-col cols="12">
-              <b-form-group
-                label="Harga Jual ke 3"
-                label-for="harga_3"
-                label-cols-md="4"
-              >
-                <b-form-input
-                  id="harga_3"
-                  v-model="form.harga_3"
-                  placeholder="Harga Jual ke 3"
-                  required
-                  type="number"
-                />
-              </b-form-group>
-            </b-col> -->
+        <b-col cols="12">
+          <b-form-group
+            label="Harga Jual ke 1"
+            label-for="harga_1"
+            label-cols-md="4"
+          >
+            <b-form-input
+              id="harga_1"
+              v-model="form.harga_1"
+              placeholder="Harga Jual ke 1"
+              required
+              type="number"
+            />
+          </b-form-group>
+        </b-col>
 
         <b-col cols="12">
           <b-form-group
-            label="Catatan"
-            label-for="catatan"
+            label="Harga Jual ke 2"
+            label-for="harga_2"
             label-cols-md="4"
           >
+            <b-form-input
+              id="harga_2"
+              v-model="form.harga_2"
+              placeholder="Harga Jual ke 2"
+              required
+              type="number"
+            />
+          </b-form-group>
+        </b-col>
+
+        <b-col cols="12">
+          <b-form-group
+            label="Harga Jual ke 3"
+            label-for="harga_3"
+            label-cols-md="4"
+          >
+            <b-form-input
+              id="harga_3"
+              v-model="form.harga_3"
+              placeholder="Harga Jual ke 3"
+              required
+              type="number"
+            />
+          </b-form-group>
+        </b-col>
+        -->
+
+        <b-col cols="12">
+          <b-form-group label="Catatan" label-for="catatan" label-cols-md="4">
             <b-form-textarea
               id="catatan"
               v-model="form.catatan"

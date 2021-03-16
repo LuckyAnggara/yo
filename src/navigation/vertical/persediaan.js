@@ -20,4 +20,13 @@ export default [
     resource: 'ACL',
     // },
   },
+  {
+    title: 'Daftar Akun',
+    route: 'screen-daftar-akun',
+    icon: 'ShieldIcon',
+    // acl: {
+    action: 'read',
+    resource: 'ACL',
+    // },
+  },
 ]

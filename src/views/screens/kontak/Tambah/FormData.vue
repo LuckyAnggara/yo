@@ -10,113 +10,123 @@
         <b-row>
           <b-col cols="12">
             <b-form-group
-              label="Nama Barang"
-              label-for="nama_barang"
+              label="Tipe Kontak"
+              label-for="tipe"
+              label-cols-md="4"
+            >
+              <v-select
+                v-model="form.tipe"
+                placeholder="Jenis Kontak"
+                :reduce="nama => nama.id"
+                label="nama"
+                :options="tipeKontak"
+              />
+            </b-form-group>
+          </b-col>
+
+          <b-col cols="12">
+            <b-form-group
+              label="Nama"
+              label-for="nama_kontak"
               label-cols-md="4"
             >
               <b-form-input
                 v-model="form.nama"
-                id="nama_barang"
-                placeholder="Nama Barang"
+                id="nama_kontak"
+                placeholder="Nama Kontak"
                 required
               />
             </b-form-group>
           </b-col>
+
           <b-col cols="12">
-            <b-form-group
-              label="Jenis Barang"
-              label-for="jenis_barang"
-              label-cols-md="4"
-            >
-              <v-select
-                v-model="form.jenis_id"
-                placeholder="Jenis Barang"
-                :reduce="nama => nama.id"
-                label="nama"
-                :options="jenisBarang"
+            <b-form-group label="Telepon" label-for="telepon" label-cols-md="4">
+              <b-form-input
+                v-model="form.telepon"
+                id="telepon"
+                placeholder="Telepon"
+                required
               />
             </b-form-group>
           </b-col>
 
           <b-col cols="12">
             <b-form-group
-              label="Merk Barang"
-              label-for="merk_barang"
-              label-cols-md="4"
-            >
-              <v-select
-                v-model="form.merek_id"
-                placeholder="Merek Barang"
-                :reduce="nama => nama.id"
-                label="nama"
-                :options="merekBarang"
-              />
-            </b-form-group>
-          </b-col>
-
-          <b-col cols="12">
-            <b-form-group label="Satuan" label-for="satuan" label-cols-md="4">
-              <v-select
-                v-model="form.satuan_id"
-                placeholder="Satuan Barang"
-                :reduce="nama => nama.id"
-                label="nama"
-                :options="satuanBarang"
-              />
-            </b-form-group>
-          </b-col>
-
-          <b-col cols="12">
-            <b-form-group
-              label="Harga Jual ke 1"
-              label-for="harga_1"
+              label="Identitas"
+              label-for="identitas"
               label-cols-md="4"
             >
               <b-form-input
-                v-model="form.harga_1"
-                id="harga_1"
-                placeholder="Harga Jual ke 1"
+                v-model="form.identitas"
+                id="identitas"
+                placeholder="Identitas ( No. KTP / No. SIM / Lainnya)"
                 required
-                type="number"
+              />
+            </b-form-group>
+          </b-col>
+
+          <b-col cols="12">
+            <b-form-group label="Nomor Npwp" label-for="npwp" label-cols-md="4">
+              <b-form-input
+                v-model="form.npwp"
+                id="npwp"
+                placeholder="Nomor NPWP"
+                type="email"
               />
             </b-form-group>
           </b-col>
 
           <b-col cols="12">
             <b-form-group
-              label="Harga Jual ke 2"
-              label-for="harga_2"
+              label="Alamat Email"
+              label-for="email"
               label-cols-md="4"
             >
               <b-form-input
-                v-model="form.harga_2"
-                id="harga_2"
-                placeholder="Harga Jual ke 2"
-                required
-                type="number"
+                v-model="form.email"
+                id="email"
+                placeholder="Alamat Email"
               />
             </b-form-group>
           </b-col>
 
           <b-col cols="12">
             <b-form-group
-              label="Harga Jual ke 3"
-              label-for="harga_3"
+              label="Nama Perusahaan"
+              label-for="nama_perusahaan"
               label-cols-md="4"
             >
               <b-form-input
-                v-model="form.harga_3"
-                id="harga_3"
-                placeholder="Harga Jual ke 3"
-                required
-                type="number"
+                v-model="form.nama_perusahaan"
+                id="nama_perusahaan"
+                placeholder="Nama Perusahaan"
               />
             </b-form-group>
           </b-col>
 
           <b-col cols="12">
-            <b-form-group label="Catatan" label-for="catatan" label-cols-md="4">
-              <b-form-textarea id="catatan" placeholder="Catatan" rows="3" />
+            <b-form-group
+              label="Alamat"
+              label-for="alamat"
+              label-cols-md="4"
+              v-model="form.alamat"
+            >
+              <b-form-textarea id="alamat" placeholder="Alamat" rows="3" />
+            </b-form-group>
+          </b-col>
+
+          <b-col cols="12">
+            <b-form-group
+              label="Info Lainnya"
+              label-for="info_lain"
+              label-cols-md="4"
+              v-model="form.info_lain"
+            >
+              <b-form-textarea
+                id="info_lain"
+                placeholder="Info Lainnya"
+                rows="3"
+              />
             </b-form-group>
           </b-col>
 
@@ -183,16 +193,26 @@ export default {
     return {
       form: {
         nama: '',
-        jenis_id: '',
-        merek_id: '',
-        satuan_id: '',
-        harga_1: '',
-        harga_2: '',
-        harga_3: '',
-        catatan: '',
+        tipe: '',
+        telepon: '',
+        email: '',
+        alamat: '',
+        nama_perusahaan: '',
+        info_lain: '',
+        npwp: '',
+        identitas: '',
       },
       selected: '',
-      jenisBarang: [],
+      tipeKontak: [
+        {
+          nama: 'Pelanggan',
+          id: 1,
+        },
+        {
+          nama: 'Supplier',
+          id: 2,
+        },
+      ],
       merekBarang: [],
       satuanBarang: [],
     }
