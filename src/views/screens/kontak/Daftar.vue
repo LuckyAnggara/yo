@@ -225,14 +225,9 @@ export default {
         .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.')}`
     },
     loadData() {
-      axios
-        .get('http://127.0.0.1:8000/api/kontak')
-        .then(res => {
-          this.rows = res.data
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      axios.get('http://127.0.0.1:8000/api/kontak').then(res => {
+        this.rows = res.data
+      })
     },
     view(obj) {
       router.push({ name: 'screen-barang-detail', params: { id: obj } })
